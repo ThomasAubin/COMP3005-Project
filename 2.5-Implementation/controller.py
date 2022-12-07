@@ -1,4 +1,4 @@
 import view
 
 def launch():
-    pass
+    view.showSplashPage()
