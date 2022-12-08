@@ -33,7 +33,7 @@ try:
     city = input("City: ")
     postalCode = input("Postal Code: ")
     country = input("Country: ")
-    type = "home"
+    type = "home" #put home as default
     name = input("Name of the address: ")
 
     #create the user table if not exist
@@ -53,29 +53,23 @@ try:
         type        varchar(100) NOT NULL,
         name        varchar(100) NOT NULL)    '''
 
+    #adding the user to the table
     insertUser = 'INSERT INTO Users (UID, fname, lname) VALUES (%s, %s, %s)'
-    userValue = (1, fname, lname)
+    userValue = (1, fname, lname) #dont know what to put for UID
 
+    #adding the address to the table
     insertAddr = 'INSERT INTO Address (UID, streetNum, street, city, postalCode, country, type, name'
-    addrValue = (1, streetNum, street, city, postalCode, country, type, name)
+    addrValue = (1, streetNum, street, city, postalCode, country, type, name) #dont know what to put for UID
 
-    
+
     #exectute commands
     cursor.execute(createUser)
     cursor.execute(createAddr)
-
-
-
-
-
-
-
+    cursor.execute(insertUser, userValue)
+    cursor.execute(insertAddr, addrValue)
 
     #save the new things to the database
     connection.commit()
-
-
-
 
     #close connections and cursor
     cursor.close()
