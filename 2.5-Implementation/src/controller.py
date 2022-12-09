@@ -1,4 +1,4 @@
-import view
+from src import view
 
 def launch():
     view.showSplashPage()
