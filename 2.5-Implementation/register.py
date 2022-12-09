@@ -1,6 +1,6 @@
 import psycopg2
 
-def launch():
+def register():
     # set your database details here
     hostname = 'localhost'
     database = 'Look_Inna_Book'
