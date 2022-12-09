@@ -1,4 +1,4 @@
-import controller
+from src import controller
 
 def main():
     controller.launch()
