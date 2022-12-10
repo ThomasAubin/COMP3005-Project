@@ -4,7 +4,7 @@ import psycopg2
 hostname = 'localhost'
 database = 'Look_Inna_Book'
 username = 'postgres'
-pwd = 'Neverletitrun!5'
+pwd = 'admin'
 portId = '5432'
 
 

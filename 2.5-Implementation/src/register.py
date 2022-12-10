@@ -5,7 +5,7 @@ def register():
     hostname = 'localhost'
     database = 'Look_Inna_Book'
     username = 'postgres'
-    pwd = 'Neverletitrun!5'
+    pwd = 'admin'
     portId = '5432'
 
     #initialise the connection and cursor
@@ -30,6 +30,24 @@ def register():
     print("\n\n================User Info==============\n\n")
     fname = input("First Name: ")
     lname = input("Last Name: ")
+    username = input("Username: ")
+    password = input("Password: ")
+    finalType = ""
+
+    while True:
+        type = input("Type of user 1. Customer | 2. Manager: ")
+        if int(type) == 1 or int(type) == 2:
+            break
+        else:
+            print("\nPlease type '1' for Customer or '2' for Manager")
+    
+
+    #set type
+    if type == 1:
+        finalType = "customer"
+    elif type == 2:
+        finalType = "manager"
+
 
     print("\n\n================Address Info==============\n\n")
     streetNum = input("Street Number: ")
@@ -42,12 +60,12 @@ def register():
 
 
     #adding the user to the table
-    insertUser = 'INSERT INTO Users (UID, fname, lname) VALUES (%s, %s, %s)'
-    userValue = (2, fname, lname) #dont know what to put for UID
+    insertUser = 'INSERT INTO Users (UID, fname, lname, username, password, type) VALUES (%s, %s, %s, %s, %s, %s)'
+    userValue = (3, fname, lname, username, password, finalType) #dont know what to put for UID
 
     #adding the address to the table
     insertAddr = 'INSERT INTO Address (UID, streetNum, street, city, postalCode, country, type, name) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)'
-    addrValue = (2, streetNum, street, city, postalCode, country, type, name) #dont know what to put for UID
+    addrValue = (3, streetNum, street, city, postalCode, country, type, name) #dont know what to put for UID
 
     #exectute commands
     cursor.execute(insertUser, userValue)
