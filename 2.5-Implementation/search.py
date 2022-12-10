@@ -4,7 +4,7 @@ import psycopg2
 hostname = 'localhost'
 database = 'Look_Inna_Book'
 username = 'postgres'
-pwd = 'password'
+pwd = 'Neverletitrun!5'
 portId = '5432'
 
 
@@ -29,12 +29,12 @@ def displayBook(books):
     for book in books:
         #Get author names------------------------------------
         # get all author uids based on ISBN
-        cursor.execute("SELECT AuthorUID FROM book_has_authors WHERE BookISBN = '%s'", book[0])
+        cursor.execute("SELECT AuthorUID FROM book_has_authors WHERE BookISBN = %s", (book[0],))
         authorUIDs = cursor.fetchall()
 
         # get all the names of the authors for that book
         for author in authorUIDs:
-            cursor.execute("SELECT fname, lname FROM Authors WHERE UID = %s", author)
+            cursor.execute("SELECT fname, lname FROM Authors WHERE UID = %s", (author,))
             authorNames.append(author[0] + " " + author[1])
 
         #turn authors into string
@@ -43,7 +43,7 @@ def displayBook(books):
 
         #Get genres------------------------------------------
         # get all genres based on ISBN
-        cursor.execute("SELECT Genre FROM Genres WHERE BookISBN = '%s'", book[0])
+        cursor.execute("SELECT Genre FROM Genres WHERE BookISBN = %s", (book[0],))
         genreNames = cursor.fetchall()
 
         # get all turn genres into string
@@ -51,7 +51,7 @@ def displayBook(books):
             finalGenre += genre + ", "
 
         #Get Publisher----------------------------------------
-        cursor.execute("SELECT fname, lname FROM Publishers WHERE email = '%s'", book[6])
+        cursor.execute("SELECT fname, lname FROM Publishers WHERE email = %s", (book[6],))
         publisherName = cursor.fetchall()
         finalPublish = publisherName[0] + " " + publisherName[1]
 
@@ -80,7 +80,7 @@ def search():
     #search by book name----------------------------------
     if userIn == 1:
         bookName = input("What is the book name?\n")
-        cursor.execute("SELECT * FROM Books WHERE name = %s", bookName)
+        cursor.execute("SELECT * FROM Books WHERE name = %s", (bookName,))
 
         rows = cursor.fetchall()
 
@@ -99,16 +99,16 @@ def search():
         temp = authorName.split()
         firstName = temp[0]
         lastName = temp[1]
-        cursor.execute("SELECT UID FROM Authors WHERE fname = '%s' AND lname = '%s'", (firstName, lastName))
+        cursor.execute("SELECT UID FROM Authors WHERE fname = %s AND lname = %s", (firstName, lastName))
         authorUID = cursor.fetchall()
 
         # find the all ISBN the beling to authorUID
-        cursor.execute("SELECT BookISBN FROM book_has_authors WHERE AuthorUID = '%s'", authorUID)
+        cursor.execute("SELECT BookISBN FROM book_has_authors WHERE AuthorUID = %s", (authorUID,))
         bookISBNs = cursor.fetchall()
 
         # retreive all books with the ISBN
         for ISBN in bookISBNs:
-            cursor.execute("SELECT * FROM Books WHERE ISBN = '%s'", ISBN)
+            cursor.execute("SELECT * FROM Books WHERE ISBN = %s", (ISBN,))
             books.append(cursor.fetchall())
         
         if len(books) == 0:
@@ -122,7 +122,7 @@ def search():
     #search by ISBN-----------------------------------------
     elif userIn == 3:
         ISBN = input("What is the book ISBN?\n")
-        cursor.execute("SELECT * FROM Books WHERE ISBN = %s", ISBN)
+        cursor.execute("SELECT * FROM Books WHERE ISBN = %s", (ISBN,))
 
         rows = cursor.fetchall()
         if len(rows) == 0:
@@ -136,11 +136,11 @@ def search():
     elif userIn == 4:
         allBooks = []
         userGenre = input("What genre are you intrested in?\n")
-        cursor.execute("SELECT BookISBN FROM Genres WHERE Genre = '%s", userGenre)
+        cursor.execute("SELECT BookISBN FROM Genres WHERE Genre = %s", (userGenre,))
         genreISBN = cursor.fetchall()
 
         for ISBN in genreISBN:
-            cursor.execute("SELECT * FROM Books WHERE ISBN = '%s'", ISBN)
+            cursor.execute("SELECT * FROM Books WHERE ISBN = %s", (ISBN,))
             allBooks.append(cursor.fetchall())
         
         if len(allBooks) == 0:
@@ -158,6 +158,9 @@ def search():
         print("Sorry that was an invalid input, please select an option (1, 2, 3, 4, 5)")
         search()
         return
+
+#save data
+connection.commit()
 
 
 #close connections and cursor
