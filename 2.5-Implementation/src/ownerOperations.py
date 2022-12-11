@@ -68,7 +68,7 @@ def removeBook():
             else:
                 print("Sorry that was an invalid input, please type 'y' for yes or 'n' for no")
 
-
+addBook()
 #save data
 connection.commit()
 
