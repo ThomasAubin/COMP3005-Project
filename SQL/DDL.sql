@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS users, paymentcards, orders, addresses, user_has_address, p
 -- -----------------------
 
 CREATE TABLE users
-    (username UUID DEFAULT uuid_generate_v4(), 
+    (username VARCHAR(15), 
      fname VARCHAR(15),
      lname VARCHAR(15),
      type VARCHAR(8), -- customer or manager
@@ -28,7 +28,7 @@ CREATE TABLE paymentcards
      digitcode3 INT,
      fname VARCHAR(15),
      lname VARCHAR(15),
-     user_username UUID,
+     user_username VARCHAR(15),
 
      PRIMARY KEY (num),
      FOREIGN KEY (user_username) REFERENCES users(username)
@@ -39,7 +39,7 @@ CREATE TABLE orders
      date_ordered DATE DEFAULT NOW(),
      tracking_num UUID DEFAULT uuid_generate_v4(),
 
-     user_username UUID,
+     user_username VARCHAR(15),
 
      bill_num CHAR(16),
      bill_expiry CHAR(4),
@@ -78,7 +78,7 @@ CREATE TABLE addresses
 
 CREATE TABLE user_has_address 
     (address_uid UUID,
-     user_username UUID,
+     user_username VARCHAR(15),
 
      PRIMARY KEY (address_uid, user_username),
      FOREIGN KEY (address_uid) REFERENCES addresses(uid),
