@@ -29,6 +29,19 @@ def checkout(uid, cart):
             continue
         elif int(choice) == 1:
             print()
+            # ADD CHECK OUT FEATURE HERE
+            for i in range(0, len(cart), 2):
+                cursor.execute("SELECT * FROM Books WHERE ISBN = %s", (cart[i],))
+                currentBook = cursor.fetchone()
+                # print(currentBook)
+
+
+                #create order
+                #book has order
+
+                cursor.execute("INSERT INTO OrderBooks(bookISBN, pricePerUnit, quantity, orderNum) VALUES (%s, %s, %s, %s)", (currentBook[0], currentBook[3], cart[i + 1], ))
+                # cursor.execute("INSERT INTO OrderBooks(ISBN, name, pages, price, quantity, publisherSharePercentage, publisherEmail) VALUES (%s, %s, %s, %s, %s, %s, %s)", (isbn, name, pages, float(price), int(quantity), int(percent), email))")
+                # print()
 
         elif int(choice) == 2:
             print("==============Cart===============\n")
@@ -50,18 +63,12 @@ def checkout(uid, cart):
 
 
 
-
-
-
-
-
-
-
-
-
     #save data
     connection.commit()
 
     #close connections and cursor
     cursor.close()
     connection.close()
+
+cart = ["1","2","2","2","3","2"]
+checkout(0, cart)
