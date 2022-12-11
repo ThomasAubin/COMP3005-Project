@@ -8,11 +8,6 @@ def register():
     pwd = 'admin'
     portId = '5432'
 
-    #initialise the connection and cursor
-    connection = None
-    cursor = None
-
-#    try:
     #connect to data base
     connection = psycopg2.connect(
         host = hostname,
@@ -40,6 +35,7 @@ def register():
             break
         else:
             print("\nPlease type '1' for Customer or '2' for Manager")
+            continue
     
 
     #set type
@@ -60,22 +56,21 @@ def register():
 
 
     #adding the user to the table
-    insertUser = 'INSERT INTO Users (fname, lname, username, password, type) VALUES (%s, %s, %s, %s, %s, %s) RETURNING uid'
-    userValue = (fname, lname, username, password, finalType) 
+    insertUser = 'INSERT INTO users (username, fname, lname, type, password) VALUES (%s, %s, %s, %s, %s)'
+    userValue = (username, fname, lname, finalType, password) 
 
     #adding the address to the table
-    insertAddr = 'INSERT INTO Address (streetNum, street, city, postal_code, country, type, name) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) RETURNING uid'
+    insertAddr = 'INSERT INTO addresses (streetNum, street, city, postal_code, country, type, name) VALUES (%s,%s,%s,%s,%s,%s,%s) RETURNING uid'
     addrValue = (streetNum, street, city, postalCode, country, type, name) 
 
     #exectute commands
     cursor.execute(insertUser, userValue)
-    uuid = cursor.fetchone()
 
     cursor.execute(insertAddr, addrValue)
     addrId = cursor.fetchone()
 
     #check to make sure added MUST CHANGE TO UID******
-    cursor.execute("SELECT * FROM users WHERE uid = %s", (uuid,))
+    cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
     addUser = cursor.fetchone()
 
     #check to make sure added MUST CHANGE TO UID******
@@ -92,13 +87,5 @@ def register():
     cursor.close()
     connection.close()
 
-    # #error handling
-    # except Exception as error:
-    #     print(error)
-    # finally:
-    #     if cursor is not None:
-    #         cursor.close()
-    #     if connection is not None:
-    #         connection.close()
 
 # register()

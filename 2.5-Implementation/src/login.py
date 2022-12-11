@@ -1,7 +1,7 @@
 import psycopg2
 
 def login():
-    loginUid = ""
+    loginUsername = ""
 
     # set your database details here
     hostname = 'localhost'
@@ -31,11 +31,12 @@ def login():
         username = input("Username: ")
         password = input("Password: ")
 
-        cursor.execute("SELECT uid FROM Users WHERE username = %s AND password = %s", (username, password))
-        loginUid = cursor.fetchone()
+        cursor.execute("SELECT username FROM users WHERE username = %s AND password = %s", (username, password))
+        loginUsername = cursor.fetchone()
 
-        if loginUid is None:
+        if loginUsername is None:
             print("sorry, there is an incorrect username or password")
+            continue
         else:
             print("Login Successful")
             break
@@ -48,5 +49,5 @@ def login():
     cursor.close()
     connection.close()
 
-    return loginUid
+    return loginUsername
 
