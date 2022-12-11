@@ -31,7 +31,7 @@ def login():
         username = input("Username: ")
         password = input("Password: ")
 
-        cursor.execute("SELECT UID FROM Users WHERE username = %s AND password = %s", (username, password))
+        cursor.execute("SELECT uid FROM Users WHERE username = %s AND password = %s", (username, password))
         loginUid = cursor.fetchone()
 
         if loginUid is None:

@@ -60,23 +60,26 @@ def register():
 
 
     #adding the user to the table
-    insertUser = 'INSERT INTO Users (UID, fname, lname, username, password, type) VALUES (%s, %s, %s, %s, %s, %s)'
-    userValue = (3, fname, lname, username, password, finalType) #dont know what to put for UID
+    insertUser = 'INSERT INTO Users (fname, lname, username, password, type) VALUES (%s, %s, %s, %s, %s, %s) RETURNING uid'
+    userValue = (fname, lname, username, password, finalType) 
 
     #adding the address to the table
-    insertAddr = 'INSERT INTO Address (UID, streetNum, street, city, postalCode, country, type, name) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)'
-    addrValue = (3, streetNum, street, city, postalCode, country, type, name) #dont know what to put for UID
+    insertAddr = 'INSERT INTO Address (streetNum, street, city, postal_code, country, type, name) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) RETURNING uid'
+    addrValue = (streetNum, street, city, postalCode, country, type, name) 
 
     #exectute commands
     cursor.execute(insertUser, userValue)
+    uuid = cursor.fetchone()
+
     cursor.execute(insertAddr, addrValue)
+    addrId = cursor.fetchone()
 
     #check to make sure added MUST CHANGE TO UID******
-    cursor.execute("SELECT * FROM users WHERE fname = %s", (fname,))
+    cursor.execute("SELECT * FROM users WHERE uid = %s", (uuid,))
     addUser = cursor.fetchone()
 
     #check to make sure added MUST CHANGE TO UID******
-    cursor.execute("SELECT * FROM address WHERE street = %s", (street,))
+    cursor.execute("SELECT * FROM address WHERE uid = %s", (addrId,))
     addAddress = cursor.fetchone()
 
     if addUser is not None and addAddress is not None:
@@ -98,4 +101,4 @@ def register():
     #     if connection is not None:
     #         connection.close()
 
-register()
+# register()

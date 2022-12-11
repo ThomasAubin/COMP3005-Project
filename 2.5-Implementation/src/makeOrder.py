@@ -47,6 +47,8 @@ def makeOrder():
                 #if it does, add the book to cart
                 else:
                     duplicate = False
+
+                    #if item already in cart, increment quantity
                     for i in range(0, len(order), 2):
                         if order[i] == tempBook:
                             temp = order[i + 1]
@@ -55,19 +57,21 @@ def makeOrder():
                             order[i + 1] = str(total)
                             duplicate = True
                             break
+                    # add item if not existing
                     if not duplicate:
                         order.append(tempBook)
                         order.append(tempQuant)
                     break
             continue
 
-
+        # display cart
         elif int(choice) == 2:
             print("==============Cart===============\n")
             for i in range(0, len(order), 2):
                 print("ISBN: " + order[i] + "         " + "Quantity: " + order[i + 1])
             continue
 
+        #return to main menu
         elif int(choice) == 3:
             break
         else:

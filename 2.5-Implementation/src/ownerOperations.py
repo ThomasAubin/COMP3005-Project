@@ -1,26 +1,26 @@
 import psycopg2
 
-# set your database details here
-hostname = 'localhost'
-database = 'Look_Inna_Book'
-username = 'postgres'
-pwd = 'admin'
-portId = '5432'
-
-
-#connect to data base
-connection = psycopg2.connect(
-    host = hostname,
-    dbname = database,
-    user = username,
-    password = pwd,
-    port = portId)
-
-#create a cursor for querying
-cursor = connection.cursor()
 
 
 def addBook():
+    # set your database details here
+    hostname = 'localhost'
+    database = 'Look_Inna_Book'
+    username = 'postgres'
+    pwd = 'admin'
+    portId = '5432'
+
+    #connect to data base
+    connection = psycopg2.connect(
+        host = hostname,
+        dbname = database,
+        user = username,
+        password = pwd,
+        port = portId)
+
+    #create a cursor for querying
+    cursor = connection.cursor()
+
     #get the book data
     print("Lets start adding a book!")
     isbn = input("What is the isbn of the book: ")
@@ -33,7 +33,7 @@ def addBook():
 
     #add the book
     print("Adding book...")
-    cursor.execute("INSERT INTO Books(ISBN, name, pages, price, quantity, publisherSharePercentage, publisherEmail) VALUES (%s, %s, %s, %s, %s, %s, %s)", (isbn, name, pages, float(price), int(quantity), int(percent), email))
+    cursor.execute("INSERT INTO Books(ISBN, name, pages, price, quantity, publisher_share_percentage, publisher_email) VALUES (%s, %s, %s, %s, %s, %s, %s)", (isbn, name, pages, float(price), int(quantity), int(percent), email))
 
     #make sure it added
     cursor.execute("SELECT * FROM Books WHERE ISBN = %s", (isbn,))
@@ -41,8 +41,34 @@ def addBook():
         print("Add successful")
 
 
+    #save data
+    connection.commit()
+
+    #close connections and cursor
+    cursor.close()
+    connection.close()
+
+
 
 def removeBook():
+    # set your database details here
+    hostname = 'localhost'
+    database = 'Look_Inna_Book'
+    username = 'postgres'
+    pwd = 'admin'
+    portId = '5432'
+
+    #connect to data base
+    connection = psycopg2.connect(
+        host = hostname,
+        dbname = database,
+        user = username,
+        password = pwd,
+        port = portId)
+
+    #create a cursor for querying
+    cursor = connection.cursor()
+
     #get book isbn
     isbn = input("What is the ISBN for the book you want to delete? ")
     print("Okay, deleting now...")
@@ -67,11 +93,11 @@ def removeBook():
                 return
             else:
                 print("Sorry that was an invalid input, please type 'y' for yes or 'n' for no")
+    #save data
+    connection.commit()
 
-addBook()
-#save data
-connection.commit()
+    #close connections and cursor
+    cursor.close()
+    connection.close()
 
-#close connections and cursor
-cursor.close()
-connection.close()
+# addBook()
