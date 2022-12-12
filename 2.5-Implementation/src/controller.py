@@ -3,9 +3,11 @@ from src import database
 from src import register
 from src import login
 from src import userFunctions
+from src import makeOrder
 
 thisUser = None
 connection = None
+order = None
 
 def launch():
     global connection
@@ -38,6 +40,8 @@ def authorization():
             quit()
 
 def main():
+    global order
+    
     if (thisUser.type == "customer"):
         while True:
             choice = view.showHomeScreen(thisUser)
@@ -48,7 +52,7 @@ def main():
             elif (choice == 3):
                 pass
             elif (choice == 4):
-                pass
+                order = makeOrder.makeOrder(connection)
             elif (choice == 5):
                 pass
             else:

@@ -1,26 +1,5 @@
-import psycopg2
-import checkout
-
-
-
 #returns an array with the isbn and quantity
-def makeOrder():
-    # set your database details here
-    hostname = 'localhost'
-    database = 'look_inna_book'
-    username = 'postgres'
-    pwd = 'admin'
-    portId = '5432'
-
-
-    #connect to data base
-    connection = psycopg2.connect(
-        host = hostname,
-        dbname = database,
-        user = username,
-        password = pwd,
-        port = portId)
-
+def makeOrder(connection):
     #create a cursor for querying
     cursor = connection.cursor()
 
@@ -80,21 +59,7 @@ def makeOrder():
             continue
 
         
-    #save data
     connection.commit()
-
-    #close connections and cursor
     cursor.close()
-    connection.close()
 
     return order
-
-#makeOrder()
-
-# checkout(usermakeOrder())
-
-
-
-
-
-
