@@ -1,4 +1,5 @@
 import psycopg2
+import checkout
 
 
 
@@ -6,7 +7,7 @@ import psycopg2
 def makeOrder():
     # set your database details here
     hostname = 'localhost'
-    database = 'Look_Inna_Book'
+    database = 'look_inna_book'
     username = 'postgres'
     pwd = 'admin'
     portId = '5432'
@@ -38,7 +39,7 @@ def makeOrder():
                 tempQuant = input("How many of these would you like to buy: ")
 
                 #check if book exists
-                cursor.execute("SELECT * FROM Books WHERE ISBN = %s", (tempBook,))
+                cursor.execute("SELECT * FROM books WHERE isbn = %s", (tempBook,))
 
                 #if book doesnt exist
                 if cursor.fetchone() is None:
@@ -89,6 +90,10 @@ def makeOrder():
     return order
 
 #makeOrder()
+
+# checkout(usermakeOrder())
+
+
 
 
 
