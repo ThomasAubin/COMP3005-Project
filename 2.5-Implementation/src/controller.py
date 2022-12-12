@@ -5,6 +5,7 @@ from src import login
 from src import userFunctions
 from src import makeOrder
 from src import checkout
+from src import ownerOperations
 
 thisUser = None
 connection = None
@@ -62,12 +63,14 @@ def main():
         while True:
             choice = view.showHomeScreen(thisUser)
             if (choice == 1):
-                pass
+                ownerOperations.addBook(connection)
             elif (choice == 2):
-                pass
+                ownerOperations.addPub(connection)
             elif (choice == 3):
-                pass
+                ownerOperations.addAuth(connection)
             elif (choice == 4):
+                ownerOperations.removeBook(connection)
+            elif (choice == 5):
                 pass
             else:
                 break

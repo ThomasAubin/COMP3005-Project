@@ -36,11 +36,12 @@ def showHomeScreen(user):
         print("\n\n Actions")
         print("1. Add book")
         print("2. Add publisher")
-        print("3. Remove book")
-        print("4. Generate report")
-        print("5. Logout")
+        print("3. Add author")
+        print("4. Remove book")
+        print("5. Generate report")
+        print("6. Logout")
         
-        return getProperInput(5)
+        return getProperInput(6)
 
 def closePage():
     print("\n\nGoodbye. Come again!")

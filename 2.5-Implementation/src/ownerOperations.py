@@ -1,23 +1,7 @@
 import psycopg2
 
 
-def addPub():
-    # set your database details here
-    hostname = 'localhost'
-    database = 'look_inna_book'
-    username = 'postgres'
-    pwd = 'admin'
-    portId = '5432'
-
-    #connect to data base
-    connection = psycopg2.connect(
-        host = hostname,
-        dbname = database,
-        user = username,
-        password = pwd,
-        port = portId)
-
-    #create a cursor for querying
+def addPub(connection):
     cursor = connection.cursor()
 
     print("===============Add a publisher===========")
@@ -44,32 +28,11 @@ def addPub():
     if cursor.fetchone() is not None:
         print("Publisher added")
 
-
-    #save data
     connection.commit()
-
-    #close connections and cursor
     cursor.close()
-    connection.close()
 
 
-def addAuth():
-    # set your database details here
-    hostname = 'localhost'
-    database = 'look_inna_book'
-    username = 'postgres'
-    pwd = 'Neverletitrun!5'
-    portId = '5432'
-
-    #connect to data base
-    connection = psycopg2.connect(
-        host = hostname,
-        dbname = database,
-        user = username,
-        password = pwd,
-        port = portId)
-
-    #create a cursor for querying
+def addAuth(connection):
     cursor = connection.cursor()
 
     print("===============Add a Author===========")
@@ -97,31 +60,11 @@ def addAuth():
     if cursor.fetchone() is not None:
         print("author added")
 
-
-    #save data
     connection.commit()
-
-    #close connections and cursor
     cursor.close()
-    connection.close()
 
-def addBook():
-    # set your database details here
-    hostname = 'localhost'
-    database = 'look_inna_book'
-    username = 'postgres'
-    pwd = 'admin'
-    portId = '5432'
 
-    #connect to data base
-    connection = psycopg2.connect(
-        host = hostname,
-        dbname = database,
-        user = username,
-        password = pwd,
-        port = portId)
-
-    #create a cursor for querying
+def addBook(connection):
     cursor = connection.cursor()
 
     #get the book data
@@ -153,32 +96,12 @@ def addBook():
         print("Add successful")
 
 
-    #save data
     connection.commit()
-
-    #close connections and cursor
     cursor.close()
-    connection.close()
 
 
 
-def removeBook():
-    # set your database details here
-    hostname = 'localhost'
-    database = 'look_inna_book'
-    username = 'postgres'
-    pwd = 'admin'
-    portId = '5432'
-
-    #connect to data base
-    connection = psycopg2.connect(
-        host = hostname,
-        dbname = database,
-        user = username,
-        password = pwd,
-        port = portId)
-
-    #create a cursor for querying
+def removeBook(connection):
     cursor = connection.cursor()
 
     while True:
@@ -215,16 +138,5 @@ def removeBook():
             if flag2:
                 break
 
-
-
-    #save data
     connection.commit()
-
-    #close connections and cursor
     cursor.close()
-    connection.close()
-#addPub()
-#addBook()
-#addAuth()
-
-#removeBook()
