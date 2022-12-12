@@ -52,6 +52,59 @@ def addPub():
     cursor.close()
     connection.close()
 
+
+def addAuth():
+    # set your database details here
+    hostname = 'localhost'
+    database = 'look_inna_book'
+    username = 'postgres'
+    pwd = 'Neverletitrun!5'
+    portId = '5432'
+
+    #connect to data base
+    connection = psycopg2.connect(
+        host = hostname,
+        dbname = database,
+        user = username,
+        password = pwd,
+        port = portId)
+
+    #create a cursor for querying
+    cursor = connection.cursor()
+
+    print("===============Add a Author===========")
+    fname = input("What is the authors first name: ")
+    lname = input("What is the authors last name: ")
+    while True:
+        isbn = input("What is the ISBN for the book he wrote: ")
+
+        cursor.execute("SELECT isbn FROM books WHERE isbn = %s", (isbn,))
+
+        if cursor.fetchone() is None:
+            print("Not vaild, choose again")
+            continue
+        else:
+            break
+
+
+    cursor.execute("INSERT INTO authors (fname, lname) VALUES (%s, %s) RETURNING uid", (fname, lname))
+    temp = cursor.fetchone()
+    uid = temp[0]
+
+    cursor.execute("INSERT INTO author_has_book (author_uid, book_isbn) VALUES (%s, %s)", (uid, isbn))
+    cursor.execute("SELECT uid FROM authors WHERE uid = %s", (uid,))
+
+    if cursor.fetchone() is not None:
+        print("author added")
+
+
+    #save data
+    connection.commit()
+
+    #close connections and cursor
+    cursor.close()
+    connection.close()
+
 def addBook():
     # set your database details here
     hostname = 'localhost'
@@ -171,6 +224,7 @@ def removeBook():
     cursor.close()
     connection.close()
 #addPub()
-addBook()
+#addBook()
+#addAuth()
 
 #removeBook()
