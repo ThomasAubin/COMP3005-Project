@@ -1,12 +1,15 @@
 from src import view
+from src import database
+
 
 def launch():
+    connection = database.connect()
+
     view.showSplashPage()
 
     choice = view.welcomePage()
     if (choice == 1):
         pass
-        # Register
     elif (choice == 2):
         pass
         # Login
