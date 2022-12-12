@@ -17,6 +17,31 @@ def welcomePage():
 
     return getProperInput(3)
 
+def showHomeScreen(user):
+    if (user.type == "customer"):
+        print("\n\n=================  Home ================= ")
+        print("Username:", user.username, "   Account Type: ", user.type)
+        print("\n\n Actions")
+        print("1. Add address")
+        print("2. Add payment")
+        print("3. Search for books")
+        print("4. Make order")
+        print("5. Checkout")
+        print("6. Logout")
+        
+        return getProperInput(6)
+    else:
+        print("\n\n=================  Home ================= ")
+        print("Username:", user.username, "   Account Type: ", user.type)
+        print("\n\n Actions")
+        print("1. Add book")
+        print("2. Add publisher")
+        print("3. Remove book")
+        print("4. Generate report")
+        print("5. Logout")
+        
+        return getProperInput(5)
+
 def closePage():
     print("\n\nGoodbye. Come again!")
 
