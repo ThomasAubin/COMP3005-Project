@@ -1,7 +1,9 @@
 from src import view
 from src import database
 from src import register
+from src import login
 
+username = ""
 
 def launch():
     connection = database.connect()
@@ -10,10 +12,11 @@ def launch():
 
     choice = view.welcomePage()
     if (choice == 1):
-        register.register(connection)
+        username = register.register(connection)
     elif (choice == 2):
-        pass
-        # Login
+        username = login.login(connection)
     else:
         view.closePage()
         quit()
+
+    print(username)
