@@ -1,24 +1,10 @@
-import psycopg2
+def addAddress(connection, user):
+    user_username = user.username
 
-def addAddress(user_username):
-    # set your database details here
-    hostname = 'localhost'
-    database = 'look_inna_book'
-    username = 'postgres'
-    pwd = 'admin'
-    portId = '5432'
-
-
-    #connect to data base
-    connection = psycopg2.connect(
-        host = hostname,
-        dbname = database,
-        user = username,
-        password = pwd,
-        port = portId)
-
-    #create a cursor for querying
     cursor = connection.cursor()
+
+
+    # ====================================
 
 
     print("\n\n================Address Info==============\n\n")
@@ -47,34 +33,20 @@ def addAddress(user_username):
     cursor.execute(insertUserHasAddress, userHasAddressValue)
 
 
-    #save data
+    # ====================================
+
+
     connection.commit()
-
-    #close connections and cursor
     cursor.close()
-    connection.close()
 
 
+def addPayment(connection, user):
+    user_username = user.username
 
-def addPayment(user_username):
-    # set your database details here
-    hostname = 'localhost'
-    database = 'look_inna_book'
-    username = 'postgres'
-    pwd = 'admin'
-    portId = '5432'
-
-
-    #connect to data base
-    connection = psycopg2.connect(
-        host = hostname,
-        dbname = database,
-        user = username,
-        password = pwd,
-        port = portId)
-
-    #create a cursor for querying
     cursor = connection.cursor()
+
+
+    # ====================================
 
 
     print("\n\n================Payment Info==============\n\n")
@@ -85,19 +57,18 @@ def addPayment(user_username):
     lname = input("Last name: ")
    
 
+   # ====================================
+
+
     # Add the address to the table
-    insertAddr = 'INSERT INTO paymentcards (num, expiry, digitcode3, fname, lname, user_username) VALUES (%s,%s,%s,%s,%s,%s)'
+    insertAddr = 'INSERT INTO paymentcards (num, expiry, digit_code_3, fname, lname, user_username) VALUES (%s,%s,%s,%s,%s,%s)'
     addrValue = (cardNum, expiry, code, fname, lname, user_username) 
 
     cursor.execute(insertAddr, addrValue)
 
-    #save data
+
+    # ====================================
+
+
     connection.commit()
-
-    #close connections and cursor
     cursor.close()
-    connection.close()
-
-#addAddress(1)
-#addPayment(1)
-#addPayment("1")

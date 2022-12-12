@@ -2,6 +2,7 @@ from src import view
 from src import database
 from src import register
 from src import login
+from src import userFunctions
 
 thisUser = None
 connection = None
@@ -41,9 +42,9 @@ def main():
         while True:
             choice = view.showHomeScreen(thisUser)
             if (choice == 1):
-                pass
+                userFunctions.addAddress(connection, thisUser)
             elif (choice == 2):
-                pass
+                userFunctions.addPayment(connection, thisUser)
             elif (choice == 3):
                 pass
             elif (choice == 4):
