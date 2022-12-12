@@ -1,25 +1,4 @@
-import psycopg2
-
-
-def displayBook(books):
-
-    # set your database details here
-    hostname = 'localhost'
-    database = 'look_inna_book'
-    username = 'postgres'
-    pwd = 'admin'
-    portId = '5432'
-
-
-    #connect to data base
-    connection = psycopg2.connect(
-        host = hostname,
-        dbname = database,
-        user = username,
-        password = pwd,
-        port = portId)
-
-    #create a cursor for querying
+def displayBook(connection, books):
     cursor = connection.cursor()
 
     authorNames = []
@@ -73,35 +52,13 @@ def displayBook(books):
         print("Genres: " + str(finalGenre))
         print("Publisher: " + str(finalPublish))
     
-    #save data
     connection.commit()
-
-
-    #close connections and cursor
     cursor.close()
-    connection.close()
 
 
 #----------------------------------------------------------------------------------------------------------------------
 
-def search():
-    # set your database details here
-    hostname = 'localhost'
-    database = 'look_inna_book'
-    username = 'postgres'
-    pwd = 'admin'
-    portId = '5432'
-
-
-    #connect to data base
-    connection = psycopg2.connect(
-        host = hostname,
-        dbname = database,
-        user = username,
-        password = pwd,
-        port = portId)
-
-    #create a cursor for querying
+def search(connection):
     cursor = connection.cursor()
 
     while True:
@@ -128,7 +85,7 @@ def search():
                 print("Sorrys, there are no books that match that description")
                 continue
 
-            displayBook(rows)
+            displayBook(connection, rows)
             continue
 
         #search by author name---------------------------------
@@ -157,7 +114,7 @@ def search():
                 continue
             
             #print out books
-            displayBook(books)
+            displayBook(connection, books)
             continue
         
         #search by ISBN-----------------------------------------
@@ -172,7 +129,7 @@ def search():
                 print("Sorry, there are no books that match that description")
                 continue
 
-            displayBook(rows)
+            displayBook(connection, rows)
             continue
         
         #search by genre---------------------------------------
@@ -190,7 +147,7 @@ def search():
                 print("Sorry, there are no books that match that genre")
                 continue
             
-            displayBook(allBooks)
+            displayBook(connection, allBooks)
             continue
 
         # quit option-------------------------------------------
@@ -201,20 +158,5 @@ def search():
             print("Sorry that was an invalid input, please select an option (1, 2, 3, 4, 5)")
             continue
     
-    #save data
     connection.commit()
-
-
-    #close connections and cursor
     cursor.close()
-    connection.close()
-
-
-
-#search()
-
-
-
-
-
-

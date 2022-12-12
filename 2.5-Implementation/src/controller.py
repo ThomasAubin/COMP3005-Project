@@ -6,6 +6,7 @@ from src import userFunctions
 from src import makeOrder
 from src import checkout
 from src import ownerOperations
+from src import search
 
 thisUser = None
 connection = None
@@ -52,7 +53,7 @@ def main():
             elif (choice == 2):
                 userFunctions.addPayment(connection, thisUser)
             elif (choice == 3):
-                pass
+                search.search(connection)
             elif (choice == 4):
                 order = makeOrder.makeOrder(connection)
             elif (choice == 5):
