@@ -1,23 +1,5 @@
-import psycopg2
-
-def checkout(user_username, cart):
-    # set your database details here
-    hostname = 'localhost'
-    database = 'look_inna_book'
-    username = 'postgres'
-    pwd = 'admin'
-    portId = '5432'
-
-
-    #connect to data base
-    connection = psycopg2.connect(
-        host = hostname,
-        dbname = database,
-        user = username,
-        password = pwd,
-        port = portId)
-
-    #create a cursor for querying
+def checkout(connection, user, cart):
+    user_username = user.username
     cursor = connection.cursor()
 
     flag = True
@@ -25,7 +7,7 @@ def checkout(user_username, cart):
 
     while True:
 
-        choice = input("What would you like to do 1. Checkout | 2. View Cart | 3. Return to main menu: ")
+        choice = input("\nWhat would you like to do 1. Checkout | 2. View Cart | 3. Return to main menu: ")
 
         if not choice.isdigit():
             print("\nSorry that is an invalid choice\n")
@@ -63,7 +45,7 @@ def checkout(user_username, cart):
                         temp = cursor.fetchone()
                         expiry = temp[0]
 
-                        cursor.execute("SELECT digitcode3 FROM paymentcards WHERE num = %s", (cardNum,))
+                        cursor.execute("SELECT digit_code_3 FROM paymentcards WHERE num = %s", (cardNum,))
                         temp = cursor.fetchone()
                         digit3 = temp[0]
 
@@ -235,7 +217,7 @@ def checkout(user_username, cart):
 
             print("before order")
 
-            cursor.execute("INSERT INTO orders(bill_num, bill_expiry, bill_digit_code_3, bill_fname, bill_lname, bill_street_num, bill_street, bill_city, bill_postal_code, bill_country, ship_street_num, ship_street, ship_city, ship_postal_code, ship_country) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING num", (cardNum, expiry, digit3, fname, lname, billNum, billStreet, billCity, billPostalCode, billCountry, shipNum, shipStreet,shipCity,shipPostalCode, shipCountry))
+            cursor.execute("INSERT INTO orders(user_username, bill_num, bill_expiry, bill_digit_code_3, bill_fname, bill_lname, bill_street_num, bill_street, bill_city, bill_postal_code, bill_country, ship_street_num, ship_street, ship_city, ship_postal_code, ship_country) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING num", (user_username, cardNum, expiry, digit3, fname, lname, billNum, billStreet, billCity, billPostalCode, billCountry, shipNum, shipStreet,shipCity,shipPostalCode, shipCountry))
             orderUid = cursor.fetchone()
 
             
@@ -302,12 +284,5 @@ def checkout(user_username, cart):
 
 
 
-    #save data
     connection.commit()
-
-    #close connections and cursor
     cursor.close()
-    connection.close()
-
-cart = ["1","2","2","2","3","2"]
-checkout("1", cart)

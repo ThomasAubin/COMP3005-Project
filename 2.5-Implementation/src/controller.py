@@ -4,10 +4,11 @@ from src import register
 from src import login
 from src import userFunctions
 from src import makeOrder
+from src import checkout
 
 thisUser = None
 connection = None
-order = None
+order = []
 
 def launch():
     global connection
@@ -41,7 +42,7 @@ def authorization():
 
 def main():
     global order
-    
+
     if (thisUser.type == "customer"):
         while True:
             choice = view.showHomeScreen(thisUser)
@@ -54,7 +55,7 @@ def main():
             elif (choice == 4):
                 order = makeOrder.makeOrder(connection)
             elif (choice == 5):
-                pass
+                checkout.checkout(connection, thisUser, order)
             else:
                 break
     else:
