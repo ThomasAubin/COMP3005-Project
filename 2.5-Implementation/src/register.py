@@ -6,7 +6,7 @@ def register(connection):
     while True:
         try:
             # Ask the users information and store data
-            print("\n\n================User Info==============\n\n")
+            print("\n\n================User Info==============")
             fname = input("First Name: ")
             lname = input("Last Name: ")
             username = input("Username: ")
@@ -69,5 +69,8 @@ def register(connection):
 
 
     connection.commit()
+    cursor.close()
 
     print("\n\nRegistration successful")
+
+    return username
