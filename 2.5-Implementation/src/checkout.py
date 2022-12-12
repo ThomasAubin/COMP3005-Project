@@ -5,7 +5,7 @@ def checkout(user_username, cart):
     hostname = 'localhost'
     database = 'look_inna_book'
     username = 'postgres'
-    pwd = 'Neverletitrun!5'
+    pwd = 'admin'
     portId = '5432'
 
 

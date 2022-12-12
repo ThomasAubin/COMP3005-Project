@@ -1,6 +1,6 @@
 import psycopg2
 
-def addAddress(username):
+def addAddress(user_username):
     # set your database details here
     hostname = 'localhost'
     database = 'look_inna_book'
@@ -42,7 +42,7 @@ def addAddress(username):
 
 
     insertUserHasAddress= 'INSERT INTO user_has_address (address_uid, user_username) VALUES (%s,%s)'
-    userHasAddressValue = (addressUID, username) 
+    userHasAddressValue = (addressUID, user_username) 
 
     cursor.execute(insertUserHasAddress, userHasAddressValue)
 
@@ -56,7 +56,7 @@ def addAddress(username):
 
 
 
-def addPayment(username):
+def addPayment(user_username):
     # set your database details here
     hostname = 'localhost'
     database = 'look_inna_book'
@@ -86,8 +86,8 @@ def addPayment(username):
    
 
     # Add the address to the table
-    insertAddr = 'INSERT INTO paymentcards (num, expiry, digit_code_3, fname, lname, user_username) VALUES (%s,%s,%s,%s,%s,%s)'
-    addrValue = (cardNum, expiry, code, fname, lname, username) 
+    insertAddr = 'INSERT INTO paymentcards (num, expiry, digitcode3, fname, lname, user_username) VALUES (%s,%s,%s,%s,%s,%s)'
+    addrValue = (cardNum, expiry, code, fname, lname, user_username) 
 
     cursor.execute(insertAddr, addrValue)
 
@@ -98,3 +98,6 @@ def addPayment(username):
     cursor.close()
     connection.close()
 
+#addAddress(1)
+#addPayment(1)
+#addPayment("1")
