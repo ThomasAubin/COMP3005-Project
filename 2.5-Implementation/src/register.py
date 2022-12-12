@@ -1,4 +1,5 @@
 from src import view
+from src.models import user
 
 def register(connection):
     cursor = connection.cursor()
@@ -73,4 +74,6 @@ def register(connection):
 
     print("\n\nRegistration successful")
 
-    return username
+    thisUser = user.User(username, fname, lname, type, password)
+
+    return thisUser
