@@ -25,7 +25,7 @@ CREATE TABLE users
 CREATE TABLE paymentcards
     (num CHAR(16),
      expiry CHAR(4),
-     digitcode3 INT,
+     digit_code_3 CHAR(3),
      fname VARCHAR(15),
      lname VARCHAR(15),
      user_username VARCHAR(15),
@@ -43,7 +43,7 @@ CREATE TABLE orders
 
      bill_num CHAR(16),
      bill_expiry CHAR(4),
-     bill_digit_code_3 INT,
+     bill_digit_code_3 CHAR(3),
      bill_fname VARCHAR(15),
      bill_lname VARCHAR(15),
 
