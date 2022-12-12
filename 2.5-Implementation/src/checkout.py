@@ -7,6 +7,7 @@ def checkout(connection, user, cart):
 
     while True:
 
+        #options
         choice = input("\nWhat would you like to do 1. Checkout | 2. View Cart | 3. Return to main menu: ")
 
         if not choice.isdigit():
@@ -20,6 +21,8 @@ def checkout(connection, user, cart):
             while True:
                 useCard = input("Would you like to use use a card on your account (y/n): ")
 
+
+                #use existing cards
                 if useCard == "y" or useCard == "Y":
                     cursor.execute("SELECT num FROM paymentcards WHERE user_username = %s", (user_username,))
                     cards = cursor.fetchall()
@@ -28,6 +31,7 @@ def checkout(connection, user, cart):
                         print("You do not have a card on file, select 'n'")
                         continue
 
+                    #display card numbers
                     print("Here are the card numbers: \n")
                     for card in cards:
                         print(card[0])
@@ -39,7 +43,7 @@ def checkout(connection, user, cart):
                     if cursor.fetchone() is None:
                         print("That is not a vaild card number")
                         continue
-                    
+                    #auto fill card info
                     else:
                         cursor.execute("SELECT expiry FROM paymentcards WHERE num = %s", (cardNum,))
                         temp = cursor.fetchone()
@@ -58,6 +62,7 @@ def checkout(connection, user, cart):
                         lname = temp[0]
                     break
                     
+                #ask for card info
                 elif useCard == "n" or useCard == "N":
                     #create order
                     print("\n==============Payment Details===============\n")
@@ -72,6 +77,7 @@ def checkout(connection, user, cart):
                     print("That is not a valid option")
                     continue
             
+            #use existing address
             while True:
                 useAddr = input("Would you like to use the address on our account as billing address (y/n): ")
 
@@ -86,11 +92,12 @@ def checkout(connection, user, cart):
                         allAddr.append(cursor.fetchone())
 
                     print("Here are you saved addresses: \n")
-
+                    #display addresses
                     for i in range(0, len(allAddr)):
                         print(str(i) + ". " + str(allAddr[i][1]) + " " + str(allAddr[i][2]) + " " + str(allAddr[i][3]) + " " + str(allAddr[i][4]) + " " + str(allAddr[i][5]))
 
                     useName = ""
+
 
                     while True:
                         useName = input("Please type the number of the address you want to use: ")
@@ -112,6 +119,7 @@ def checkout(connection, user, cart):
                         print("That is not a vaild uid")
                         continue
 
+                    #autofill the address data
                     else:
                         cursor.execute("SELECT street_num FROM addresses WHERE uid = %s", (useName,))
                         temp = cursor.fetchone()
@@ -133,6 +141,7 @@ def checkout(connection, user, cart):
                         temp = cursor.fetchone()
                         billPostalCode = temp[0]
                     break   
+                #ask for address data
                 elif useAddr == "n" or useAddr == "N":
                     print("\n==============Billing Address=============")
                     billNum = input("What is your street number: ")
@@ -146,6 +155,7 @@ def checkout(connection, user, cart):
                     continue
 
             while True:
+                #same ad billing
                 useShip = input("Would you like to use the address on our account as shipping address (y/n): ")
 
                 if useShip == "y" or useShip == "Y":
@@ -179,6 +189,7 @@ def checkout(connection, user, cart):
                         print("That is not a vaild uid")
                         continue
 
+                    #same as billing
                     else:
                         cursor.execute("SELECT street_num FROM addresses WHERE uid = %s", (useName,))
                         temp = cursor.fetchone()
@@ -201,6 +212,7 @@ def checkout(connection, user, cart):
                         shipPostalCode = temp[0]
                     break   
 
+                #ask for shippig data
                 elif useShip == "n" or useShip == "N":
                     print("\n==============Shipping Address=============")
                     shipNum = input("What is your street number: ")
@@ -221,7 +233,7 @@ def checkout(connection, user, cart):
             orderUid = cursor.fetchone()
 
             
-
+            #confirm order
             while True:
                 proceed = input("Would you like to complete this order (y,n) if not, you will have to re-enter shipping and payment information: ")
                 if proceed == "y":
@@ -268,7 +280,7 @@ def checkout(connection, user, cart):
                 print("ISBN: " + cart[i] + "         " + "Quantity: " + cart[i + 1])
             break
 
-
+        #display card
         elif int(choice) == 2:
             print("==============Cart===============\n")
             for i in range(0, len(cart), 2):

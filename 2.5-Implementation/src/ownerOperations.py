@@ -1,6 +1,6 @@
 def addPub(connection):
     cursor = connection.cursor()
-
+    #add publisher function, get user data
     print("===============Add a publisher===========")
     email = input("What is the publisher email: ")
     pubname = input("What is the publisher name: ")
@@ -14,7 +14,7 @@ def addPub(connection):
     type = "home"
     name = input("What do you want to name this address: ")
 
-
+    #execute queries
     cursor.execute("INSERT INTO addresses (street_num, street, city, postal_code, country, type, name) VALUES (%s, %s, %s, %s,%s, %s,%s) RETURNING uid", (streetNum, street, city, postalCode, country, type, name))
     temp = cursor.fetchone()
     uid = temp[0]
@@ -28,7 +28,7 @@ def addPub(connection):
     connection.commit()
     cursor.close()
 
-
+#add author
 def addAuth(connection):
     cursor = connection.cursor()
 
@@ -46,7 +46,7 @@ def addAuth(connection):
         else:
             break
 
-
+    #execute queries
     cursor.execute("INSERT INTO authors (fname, lname) VALUES (%s, %s) RETURNING uid", (fname, lname))
     temp = cursor.fetchone()
     uid = temp[0]

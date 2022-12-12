@@ -60,7 +60,7 @@ def addPayment(connection, user):
    # ====================================
 
 
-    # Add the address to the table
+    # Add the card to the table
     insertAddr = 'INSERT INTO paymentcards (num, expiry, digit_code_3, fname, lname, user_username) VALUES (%s,%s,%s,%s,%s,%s)'
     addrValue = (cardNum, expiry, code, fname, lname, user_username) 
 
