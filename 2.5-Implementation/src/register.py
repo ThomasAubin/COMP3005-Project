@@ -4,6 +4,8 @@ from src.models import user
 def register(connection):
     cursor = connection.cursor()
 
+    thisUser = None
+
     while True:
         try:
             # Ask the users information and store data
@@ -29,6 +31,8 @@ def register(connection):
 
             cursor.execute(insertUser, userValue)
             userUsername = cursor.fetchone()[0]
+
+            thisUser = user.User(username, fname, lname, finalType, password)
 
             break
 
@@ -74,4 +78,4 @@ def register(connection):
 
     print("\n\nRegistration successful")
 
-    return user.User(username, fname, lname, type, password)
+    return thisUser
