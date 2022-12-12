@@ -74,6 +74,4 @@ def register(connection):
 
     print("\n\nRegistration successful")
 
-    thisUser = user.User(username, fname, lname, type, password)
-
-    return thisUser
+    return user.User(username, fname, lname, type, password)
