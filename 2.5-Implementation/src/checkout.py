@@ -5,7 +5,7 @@ def checkout(user_username, cart):
     hostname = 'localhost'
     database = 'look_inna_book'
     username = 'postgres'
-    pwd = 'admin'
+    pwd = 'Neverletitrun!5'
     portId = '5432'
 
 
@@ -48,7 +48,7 @@ def checkout(user_username, cart):
 
                     print("Here are the card numbers: \n")
                     for card in cards:
-                        print(card[i])
+                        print(card[0])
                     
                     cardNum = input("Please type the number of the card you want to use: ")
 
@@ -63,7 +63,7 @@ def checkout(user_username, cart):
                         temp = cursor.fetchone()
                         expiry = temp[0]
 
-                        cursor.execute("SELECT digit_code_3 FROM paymentcards WHERE num = %s", (cardNum,))
+                        cursor.execute("SELECT digitcode3 FROM paymentcards WHERE num = %s", (cardNum,))
                         temp = cursor.fetchone()
                         digit3 = temp[0]
 
@@ -106,7 +106,7 @@ def checkout(user_username, cart):
                     print("Here are you saved addresses: \n")
 
                     for i in range(0, len(allAddr)):
-                        print(i + ". " + allAddr[i][1] + " " + allAddr[i][2] + " " + allAddr[i][3] + " " + allAddr[i][4] + " " + allAddr[i][5])
+                        print(str(i) + ". " + str(allAddr[i][1]) + " " + str(allAddr[i][2]) + " " + str(allAddr[i][3]) + " " + str(allAddr[i][4]) + " " + str(allAddr[i][5]))
 
                     useName = ""
 
@@ -122,7 +122,7 @@ def checkout(user_username, cart):
                         else:
                             break
                     
-                    useName = allAddr[useName][0]
+                    useName = allAddr[int(useName)][0]
                         
                     cursor.execute("SELECT uid FROM addresses WHERE uid = %s", (useName,))
 
@@ -172,12 +172,24 @@ def checkout(user_username, cart):
                     addressUids = cursor.fetchall()
 
                     print("Here are you saved addresses: \n")
-                    for uid in addressUids:
-                        cursor.execute("SELECT uid, name FROM addresses WHERE uid = %s", (uid,))
-                        name = cursor.fetchall()
-                        print("UID: " + uid + "         " + "Name: " + name)
+                    for i in range(0, len(allAddr)):
+                        print(str(i) + ". " + str(allAddr[i][1]) + " " + str(allAddr[i][2]) + " " + str(allAddr[i][3]) + " " + str(allAddr[i][4]) + " " + str(allAddr[i][5]))
 
-                    useName = input("Please type the UID of the address you want to use: ")
+                    useName = ""
+
+                    while True:
+                        useName = input("Please type the number of the address you want to use: ")
+
+                        if not useName.isdigit():
+                            print("That is not a vaild input")
+                            continue
+                        elif 0 > int(useName) or len(allAddr) <= int(useName):
+                            print("That is not a vaild input")
+                            continue
+                        else:
+                            break
+                    
+                    useName = allAddr[int(useName)][0]
 
                     cursor.execute("SELECT uid FROM addresses WHERE uid = %s", (useName,))
 
@@ -298,4 +310,4 @@ def checkout(user_username, cart):
     connection.close()
 
 cart = ["1","2","2","2","3","2"]
-checkout(0, cart)
+checkout("1", cart)
