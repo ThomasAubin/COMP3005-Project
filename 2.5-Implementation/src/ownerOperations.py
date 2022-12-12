@@ -1,6 +1,3 @@
-import psycopg2
-
-
 def addPub(connection):
     cursor = connection.cursor()
 
@@ -55,10 +52,8 @@ def addAuth(connection):
     uid = temp[0]
 
     cursor.execute("INSERT INTO author_has_book (author_uid, book_isbn) VALUES (%s, %s)", (uid, isbn))
-    cursor.execute("SELECT uid FROM authors WHERE uid = %s", (uid,))
 
-    if cursor.fetchone() is not None:
-        print("author added")
+    print("author added")
 
     connection.commit()
     cursor.close()
@@ -89,6 +84,16 @@ def addBook(connection):
     #add the book
     print("Adding book...")
     cursor.execute("INSERT INTO books(isbn, name, pages, price, quantity, publisher_share_percentage, publisher_email) VALUES (%s, %s, %s, %s, %s, %s, %s)", (isbn, name, pages, float(price), int(quantity), int(percent), email))
+
+    print("Enter genres. Type quit to stop")
+    while True:
+        genre = input(">> ")
+        if genre == "quit":
+            break
+        
+        cursor.execute("INSERT INTO genres(book_isbn, genre) VALUES (%s, %s)", (isbn, genre))
+
+
 
     #make sure it added
     cursor.execute("SELECT * FROM books WHERE isbn = %s", (isbn,))
